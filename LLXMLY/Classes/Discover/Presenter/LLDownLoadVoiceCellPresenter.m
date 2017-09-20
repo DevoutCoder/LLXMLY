@@ -14,7 +14,7 @@
 
 
 @interface LLDownLoadVoiceCellPresenter ()
-
+//绑定的cell
 @property (nonatomic,weak) LLDownLoadVoiceCell * cell;
 
 @end
@@ -22,6 +22,7 @@
 
 @implementation LLDownLoadVoiceCellPresenter
 
+//提供get方法返回 当前音频数据模型的 属性
 - (NSString *)title {
     return self.voiceM.title;
 }
@@ -44,6 +45,9 @@
 
 
 - (LLDownLoadVoiceCellState)cellDownLoadState {
+    
+    //获取当前下载对象的 下载状态来更新cell的界面
+    //所有的下载对象保存在一个字典中并且以 md5后的链接为key 可以快速找到
     LLDownLoader *downLoaer = [[LLDownLoadManager shareInstance] getDownLoaderWithURL:[self playOrDownLoadURL]];
     if (downLoaer.state == LLDownLoaderStateDowning) {
         return  LLDownLoadVoiceCellStateDownLoading;
@@ -56,6 +60,8 @@
 }
 
 - (BOOL)isPlaying {
+    //当前已绑定的 模型对象的url  和  当前 播放器对象的模型相比较
+    //当前模型正在播放 则拿出播放器对象的状态    没有正在播放则返回NO
     if ([[self playOrDownLoadURL] isEqual:[LLRemotePlayer shareInstance].url]) {
         LLRemotePlayerState state = [LLRemotePlayer shareInstance].state;
         if (state == LLRemotePlayerStatePlaying || state == LLRemotePlayerStateLoading) {
@@ -73,6 +79,7 @@
     
     self.cell = cell;
     
+    //绑定cell的同时 给cell的界面数据赋值
     cell.voiceTitleLabel.text = [self title];
     cell.voiceAuthorLabel.text = [self authorName];
     [cell.playOrPauseBtn sd_setBackgroundImageWithURL:[self voiceURL]  forState:UIControlStateNormal];

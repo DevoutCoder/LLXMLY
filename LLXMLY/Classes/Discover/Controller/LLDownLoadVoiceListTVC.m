@@ -30,6 +30,7 @@
     self.tableView.rowHeight = 80;
     __weak typeof(self) weakSelf = self;
     
+    //获取今日的音频列表
     [[LLDownLoadDataProvider shareInstance] getTodayFireVoiceMsWithKey:self.loadKey result:^(NSArray<LLDownLoadVoiceModel *> *voiceMs) {
         
         NSMutableArray *presenters = [NSMutableArray array];
@@ -53,12 +54,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    
     LLDownLoadVoiceCell *cell = [LLDownLoadVoiceCell cellWithTableView:tableView];
     
     LLDownLoadVoiceCellPresenter *presenter = self.presenterMs[indexPath.row];
     presenter.sortNum = indexPath.row + 1;
     [presenter bindWithCell:cell];
-    
+    //一个模型绑定一个cell   cell 有重用所以不是唯一的 但是模型的下载状态是唯一的。
     return cell;
 }
 

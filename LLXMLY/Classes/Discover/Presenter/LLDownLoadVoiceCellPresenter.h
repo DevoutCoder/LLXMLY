@@ -12,11 +12,12 @@
 
 @interface LLDownLoadVoiceCellPresenter : NSObject
 
-
+//数据模型
 @property (nonatomic, strong) LLDownLoadVoiceModel *voiceM;
-
+//排序索引
 @property (nonatomic, assign) NSInteger sortNum;
 
+//绑定cell
 - (void)bindWithCell: (LLDownLoadVoiceCell *)cell;
 
 
